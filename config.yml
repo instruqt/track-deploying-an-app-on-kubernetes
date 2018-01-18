@@ -1,0 +1,10 @@
+template: virtualmachines
+configuration:
+  PoolSize: 3
+  VirtualMachines:
+  - Image: kubernetes-180
+    MachineType: g1-small
+    Name: kubernetes
+    Ports:
+    - 8001
+    Shell: /bin/bash
