@@ -41,30 +41,6 @@ challenges:
     Show that the tab now shows the nginx output
   difficulty: basic
   unlocks:
-  - get-deployments
-  tabs:
-  - type: terminal
-    title: Shell
-    hostname: kubernetes
-- slug: get-deployments
-  credits: 10
-  title: Get deployments
-  teaser: A short description of the challenge.
-  notes:
-  - type: text
-    contents: |-
-      Once the application instances are created, a **Kubernetes Deployment Controller** continuously **monitors** those instances.
-      If the Node hosting an instance **goes down** or is **deleted**, the Deployment controller **replaces it**.
-
-      This provides a **self-healing** mechanism to address machine **failure** or **maintenance**.
-  - type: text
-    contents: |-
-      explain how to inspect deployments
-  assignment: |-
-    See if the application is running
-    kubectl get deployments
-  difficulty: basic
-  unlocks:
   - remove-an-application
   tabs:
   - type: terminal
@@ -129,7 +105,7 @@ challenges:
           - containerPort: 80
       ```
   assignment: |-
-    View the yaml file that does the same as step 1
+    View the yaml file
   difficulty: basic
   unlocks:
   - apply-a-definition
@@ -219,7 +195,7 @@ challenges:
     contents: |-
       this text with your own text
   assignment: |-
-    Delete the deployment
+    Delete the definition
   difficulty: basic
   unlocks: []
   tabs:
