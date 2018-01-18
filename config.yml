@@ -1,6 +1,6 @@
 template: virtualmachines
 configuration:
-  PoolSize: 3
+  PoolSize: 0
   VirtualMachines:
   - Image: kubernetes-180
     MachineType: g1-small

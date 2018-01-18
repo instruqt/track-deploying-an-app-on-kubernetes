@@ -1,0 +1,3 @@
+#!/bin/bash
+DASHBOARD_PORT=8001
+while ! nc -z -q 1 localhost ${DASHBOARD_PORT}; do echo "Port ${DASHBOARD_PORT} not open" && sleep 1; done

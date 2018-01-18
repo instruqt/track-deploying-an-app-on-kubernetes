@@ -32,17 +32,25 @@ challenges:
     contents: |-
       You can create and manage a Deployment by using the **Kubernetes command line interface, Kubectl**.
 
+      ```
+      kubectl run <name> --image=<container-image> --port=<container-port>
+      ```
+
       Kubectl uses the **Kubernetes API** to interact with the cluster.
   assignment: |-
-    Run a docker image on
-    kubectl run nginx image
-    nginx
-    port 8080
-    Show that the tab now shows the nginx output
+    Run the **nginx docker image** on Kubernetes by using **kubectl**.
+    You also need to expose **port 80**.
+
+    You can check if everything is working correctly by **refreshing the Kubernetes tab** and checking the deployments.
   difficulty: basic
   unlocks:
   - remove-an-application
   tabs:
+  - type: service
+    title: Kubernetes
+    hostname: kubernetes
+    port: 8001
+    path: "/api/v1/namespaces/kube-system/services/kubernetes-dashboard/proxy/#!/deployment?namespace=default"
   - type: terminal
     title: Shell
     hostname: kubernetes
@@ -53,16 +61,27 @@ challenges:
   notes:
   - type: text
     contents: |-
-      deleting a deployment will also destroy any underlying objects.
+      When you want to **stop** your application, you need to **remove it** from the Kubernetes cluster.
+
+      Removing the deployment will also **destroy** any **underlying containers**.
   - type: text
     contents: |-
-      kubectl delete deployment NAME
+      You can **delete the deployment** using the Kubernetes command line tool, kubectl:
+
+      ```
+      kubectl delete deployment <name>
+      ```
   assignment: |-
-    Remove the application
+    Remove the **nginx deployment** we created in the **previous challenge**.
   difficulty: basic
   unlocks:
   - definition-files
   tabs:
+  - type: service
+    title: Kubernetes
+    hostname: kubernetes
+    port: 8001
+    path: "/api/v1/namespaces/kube-system/services/kubernetes-dashboard/proxy/#!/deployment?namespace=default"
   - type: terminal
     title: Shell
     hostname: kubernetes
@@ -73,23 +92,37 @@ challenges:
   notes:
   - type: text
     contents: |-
-      You interact with Kubernetes objects by submitting a definition.
-      This definition is a declaration of a desired state.
+      You interact with Kubernetes objects by **submitting a definition**.
+      This definition is a **declaration of a desired state**.
 
       Desired state is a very important concept in the Kubernetes model.
   - type: text
     contents: |-
-      Many things present a desired state to the system, and it is Kubernetes' responsibility to make sure that the current state matches the desired state.
+      Many things present a desired state to the system, and it is Kubernetes' responsibility to make sure that the **current state matches the desired state**.
 
       For example, when you create a Pod, you declare that you want the containers in it to be running.
   - type: text
     contents: |-
-      If the containers happen to not be running (e.g. program failure, etc.), Kubernetes will continue to (re-)create them for you in order to drive them to the desired state.
+      If the containers happen to **not be running** (e.g. program failure, etc.), Kubernetes will continue to **(re-)create them** for you in order to **drive them to the desired state**.
 
       This process continues until the Pod is deleted.
   - type: text
     contents: |-
-      The simplest pod definition describes the deployment of a single container.
+      **Pods** are the **atomic unit** on the Kubernetes platform.
+      When you create a Deployment on Kubernetes, that Deployment **creates Pods** with **containers inside** them.
+
+      Each Pod is **tied to the Node** where it is scheduled, and remains there **until termination or deletion**.
+  - type: text
+    contents: |-
+      A Pod represents a group of **one or more** application containers that are **relatively tightly coupled**, and some **shared resources** for those containers:
+      - **Shared storage**, as Volumes
+      - **Networking**, as a unique cluster IP address
+      - **Information about how to run each container**, such as the container image version or specific ports to use
+
+      Pods are **always co-located and co-scheduled** and run in a shared context on the same Node.
+  - type: text
+    contents: |-
+      The simplest **pod definition** describes the deployment of a **single container**.
 
       For example, an nginx web server pod might be defined as such:
       ```
@@ -105,11 +138,18 @@ challenges:
           - containerPort: 80
       ```
   assignment: |-
-    View the yaml file
+    We have created a simple **pod definition** file for you.
+
+    Take a look at the contents of **nginx.yaml**.
   difficulty: basic
   unlocks:
   - apply-a-definition
   tabs:
+  - type: service
+    title: Kubernetes
+    hostname: kubernetes
+    port: 8001
+    path: "/api/v1/namespaces/kube-system/services/kubernetes-dashboard/proxy/#!/pod?namespace=default"
   - type: terminal
     title: Shell
     hostname: kubernetes
@@ -120,52 +160,30 @@ challenges:
   notes:
   - type: text
     contents: |-
-      you can create definitions by submitting them to the kubernetes api with kubectl:
-      kubectl create -f file/dir
-  - type: text
-    contents: |-
-      you can create a single file at a time, or all files in a directory at once.
-  assignment: |-
-    Apply or create the yaml file to create the pod
-  difficulty: basic
-  unlocks:
-  - get-pods
-  tabs:
-  - type: terminal
-    title: Shell
-    hostname: kubernetes
-- slug: get-pods
-  credits: 10
-  title: Get pods
-  teaser: A short description of the challenge.
-  notes:
-  - type: text
-    contents: |-
-      **Pods** are the **atomic unit** on the Kubernetes platform.
-      When you create a Deployment on Kubernetes, that Deployment **creates Pods** with **containers inside** them.
+      You can submit definitions to the Kubernetes API with kubectl:
+      ```
+      kubectl create -f <file>
+      ```
 
-      Each Pod is **tied to the Node** where it is scheduled, and remains there **until termination or deletion**.
+      This will tell Kubernetes to create the desired state described in the definition file.
   - type: text
     contents: |-
-      A Pod represents a group of **one or more** application containers, and some **shared resources** for those containers:
-      - **Shared storage**, as Volumes
-      - **Networking**, as a unique cluster IP address
-      - **Information about how to run each container**, such as the container image version or specific ports to use
-  - type: text
-    contents: |-
-      A Pod contains application containers that are **relatively tightly coupled**.
+      You can create a **single file** at a time, or **all files in a directory** at once.
 
-      The containers in a Pod share an IP Address and port space, are **always co-located and co-scheduled**, and run in a shared context on the same Node.
-  - type: text
-    contents: |-
-      to inspect pods ....
+      ```
+      kubectl create -f <directory>
+      ```
   assignment: |-
-    See more k8s internals by inspecting pods
-    kubectl get pods
+    Submit the **nginx.yaml** file to the Kubernetes master using **kubectl**.
   difficulty: basic
   unlocks:
   - multiple-containers
   tabs:
+  - type: service
+    title: Kubernetes
+    hostname: kubernetes
+    port: 8001
+    path: "/api/v1/namespaces/kube-system/services/kubernetes-dashboard/proxy/#!/pod?namespace=default"
   - type: terminal
     title: Shell
     hostname: kubernetes
@@ -176,13 +194,71 @@ challenges:
   notes:
   - type: text
     contents: |-
-      this text with your own text
+      ```
+      kubectl apply -f <file>
+      ```
+  - type: text
+    contents: |-
+      ```
+      apiVersion: v1
+      kind: Pod
+      metadata:
+        name: guestbook
+      spec:
+        containers:
+        - name: guestbook
+          image: kubeguide/guestbook-php-frontend:localredis
+          ports:
+          - containerPort: 80
+        - name: redis
+          image: redis
+          ports:
+          - containerPort: 6379
+      ```
   assignment: |-
-    Pod with multiple containers
+    The webserver will need a database eventually, lets **add a MySQL container** to the **pod definition** of **nginx**.
+
+    The container uses **port 3306** and uses the **official mysql image** from the docker hub.
+
+    After updating the definition, **apply** the changes.
   difficulty: basic
   unlocks:
   - delete-a-definition
   tabs:
+  - type: service
+    title: Kubernetes
+    hostname: kubernetes
+    port: 8001
+    path: "/api/v1/namespaces/kube-system/services/kubernetes-dashboard/proxy/#!/pod?namespace=default"
+  - type: terminal
+    title: Shell
+    hostname: kubernetes
+- slug: edit-a-definition
+  credits: 10
+  title: Edit a definition
+  teaser: A short description of the challenge.
+  notes:
+  - type: text
+    contents: |-
+      Instead of opening the file yourself and applying the changes, you can also use:
+      ```
+      kubectl edit pod/<name>
+      ```
+
+      This can be used for any Kubernetes resource by replacing pod with the resource type.
+  assignment: |-
+    There is a newer version of the nginx Docker image.
+
+    Update the version of the nginx container to be ... by using the edit command.
+  difficulty: basic
+  unlocks:
+  - delete-a-definition
+  tabs:
+  - type: service
+    title: Kubernetes
+    hostname: kubernetes
+    port: 8001
+    path: "/api/v1/namespaces/kube-system/services/kubernetes-dashboard/proxy/#!/pod?namespace=default"
   - type: terminal
     title: Shell
     hostname: kubernetes
@@ -193,12 +269,19 @@ challenges:
   notes:
   - type: text
     contents: |-
-      this text with your own text
+      ```
+      kubectl delete -f <file>
+      ```
   assignment: |-
-    Delete the definition
+    Remove the nginx pod.
   difficulty: basic
   unlocks: []
   tabs:
+  - type: service
+    title: Kubernetes
+    hostname: kubernetes
+    port: 8001
+    path: "/api/v1/namespaces/kube-system/services/kubernetes-dashboard/proxy/#!/pod?namespace=default"
   - type: terminal
     title: Shell
     hostname: kubernetes
