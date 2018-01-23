@@ -1,1 +1,15 @@
 #!/bin/bash
+COMMAND=$(cat /root/.bash_history | grep -e "^kubectl apply -f" -e "^kubectl create -f" | wc -l)
+if [ $COMMAND -eq 0 ]; then
+  echo "FAIL: The kubectl apply definition command was not run."
+  exit 1
+fi
+
+POD=$(kubectl get pod nginx --output json)
+# Check if we have a result
+if [ $? == 1 ]; then
+  echo "FAIL: There was no pod called nginx"
+  exit 1
+fi
+
+exit 0

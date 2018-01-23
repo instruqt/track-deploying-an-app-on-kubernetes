@@ -1,1 +1,23 @@
 #!/bin/bash
+DEPLOYMENT=$(kubectl get deployments nginx --output json)
+
+# Check if we have a result
+if [ $? == 1 ]; then
+  echo "FAIL: There was no deployment called nginx"
+  exit 1
+fi
+
+CONTAINER=$(echo $DEPLOYMENT | jq -r .spec.template.spec.containers[0])
+IMAGE=$(echo $CONTAINER | jq -r .image)
+if [ "$IMAGE" != "nginx" ]; then
+  echo "FAIL: The image of the nginx deployment incorrect: expected nginx but found $IMAGE"
+  exit 1
+fi
+
+PORT=$(echo $CONTAINER | jq -r .ports[0].containerPort)
+if [ "$PORT" != "80" ]; then
+  echo "FAIL: The deployment does not have the correct port defined: expected 80 but found $PORT"
+  exit 1
+fi
+
+exit 0

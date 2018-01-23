@@ -1,1 +1,15 @@
 #!/bin/bash
+set -e
+
+if [ ! -f "/tmp/nginx-yml-touched" ]; then
+  echo "FAIL: The nginx.yml file was not accessed"
+  exit 1
+fi
+
+ACCESS=$(grep ACCESS /tmp/nginx-yml-touched | wc -l)
+if [ $ACCESS -eq 0 ]; then
+  echo "FAIL: The nginx.yml file was not accessed"
+  exit 1
+fi
+
+exit 0

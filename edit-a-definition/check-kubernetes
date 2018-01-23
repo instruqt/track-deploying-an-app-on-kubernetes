@@ -1,1 +1,22 @@
 #!/bin/bash
+COMMAND=$(cat /root/.bash_history | grep "^kubectl edit pod/" | wc -l)
+if [ $COMMAND -eq 0 ]; then
+  echo "FAIL: The kubectl edit definition command was not run."
+  exit 1
+fi
+
+POD=$(kubectl get pod nginx --output json)
+# Check if we have a result
+if [ $? == 1 ]; then
+  echo "FAIL: There was no pod called nginx"
+  exit 1
+fi
+
+
+IMAGE=$(echo $POD | jq -r '.spec.containers[0].image')
+if [ "$IMAGE" != "nginx:1.13.8-alpine" ]; then
+  echo "FAIL: Wrong image of nginx found on pod nginx: expected nginx:1.13.8-alpine but found $IMAGE"
+  exit 1
+fi
+
+exit 0

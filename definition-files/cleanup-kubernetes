@@ -1,0 +1,3 @@
+#!/bin/bash
+rm /tmp/nginx-yml-touched
+killall inotifywait

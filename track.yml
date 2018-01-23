@@ -2,7 +2,7 @@ type: track
 slug: deploying-an-app-on-kubernetes
 icon: https://storage.googleapis.com/instruqt-frontend/img/tracks/kubernetes.png
 title: Deploying an app on Kubernetes
-teaser: A short description of the track.
+teaser: Learn how to run applications on Kubernetes.
 description: |-
   In a pre-orchestration world, installation scripts would often be used to start applications, but they did not allow recovery from machine failure.
 
@@ -13,7 +13,7 @@ challenges:
 - slug: run-an-application
   credits: 10
   title: Run an application
-  teaser: A short description of the challenge.
+  teaser: Run your first application on Kubernetes from the command-line.
   notes:
   - type: text
     contents: |-
@@ -38,26 +38,32 @@ challenges:
 
       Kubectl uses the **Kubernetes API** to interact with the cluster.
   assignment: |-
-    Run the **nginx docker image** on Kubernetes by using **kubectl**.
-    You also need to expose **port 80**.
+    Run the **nginx docker image** using **port 80** on Kubernetes, by using **kubectl**.
+
+    Be sure to:
+    - use **port 80**
+    - name it **nginx**
+    - use the **nginx image** from the [Docker hub](https://hub.docker.com/_/nginx/)
 
     You can check if everything is working correctly by **refreshing the Kubernetes tab** and checking the deployments.
+
+    If you need more help, try **kubectl run --help**.
   difficulty: basic
   unlocks:
   - remove-an-application
   tabs:
+  - type: terminal
+    title: Shell
+    hostname: kubernetes
   - type: service
     title: Kubernetes
     hostname: kubernetes
     port: 8001
     path: "/api/v1/namespaces/kube-system/services/kubernetes-dashboard/proxy/#!/deployment?namespace=default"
-  - type: terminal
-    title: Shell
-    hostname: kubernetes
 - slug: remove-an-application
   credits: 10
   title: Remove an application
-  teaser: A short description of the challenge.
+  teaser: Get rid of the application that you started.
   notes:
   - type: text
     contents: |-
@@ -77,18 +83,18 @@ challenges:
   unlocks:
   - definition-files
   tabs:
+  - type: terminal
+    title: Shell
+    hostname: kubernetes
   - type: service
     title: Kubernetes
     hostname: kubernetes
     port: 8001
     path: "/api/v1/namespaces/kube-system/services/kubernetes-dashboard/proxy/#!/deployment?namespace=default"
-  - type: terminal
-    title: Shell
-    hostname: kubernetes
 - slug: definition-files
   credits: 10
   title: Definition files
-  teaser: A short description of the challenge.
+  teaser: Take a look at the way objects are defined in Kubernetes.
   notes:
   - type: text
     contents: |-
@@ -123,40 +129,26 @@ challenges:
   - type: text
     contents: |-
       The simplest **pod definition** describes the deployment of a **single container**.
-
-      For example, an nginx web server pod might be defined as such:
-      ```
-      apiVersion: v1
-      kind: Pod
-      metadata:
-        name: nginx
-      spec:
-        containers:
-        - name: nginx
-          image: nginx:1.7.9
-          ports:
-          - containerPort: 80
-      ```
   assignment: |-
     We have created a simple **pod definition** file for you.
 
-    Take a look at the contents of **nginx.yaml**.
+    Take a look at the contents of **nginx.yml**.
   difficulty: basic
   unlocks:
   - apply-a-definition
   tabs:
+  - type: terminal
+    title: Shell
+    hostname: kubernetes
   - type: service
     title: Kubernetes
     hostname: kubernetes
     port: 8001
     path: "/api/v1/namespaces/kube-system/services/kubernetes-dashboard/proxy/#!/pod?namespace=default"
-  - type: terminal
-    title: Shell
-    hostname: kubernetes
 - slug: apply-a-definition
   credits: 10
   title: Apply a definition
-  teaser: A short description of the challenge.
+  teaser: Deploy applications on Kubernetes using the definition files.
   notes:
   - type: text
     contents: |-
@@ -174,69 +166,23 @@ challenges:
       kubectl create -f <directory>
       ```
   assignment: |-
-    Submit the **nginx.yaml** file to the Kubernetes master using **kubectl**.
+    Submit the **nginx.yml** file to the Kubernetes master using **kubectl**.
   difficulty: basic
   unlocks:
-  - multiple-containers
+  - edit-a-definition
   tabs:
+  - type: terminal
+    title: Shell
+    hostname: kubernetes
   - type: service
     title: Kubernetes
     hostname: kubernetes
     port: 8001
     path: "/api/v1/namespaces/kube-system/services/kubernetes-dashboard/proxy/#!/pod?namespace=default"
-  - type: terminal
-    title: Shell
-    hostname: kubernetes
-- slug: multiple-containers
-  credits: 10
-  title: Multiple containers
-  teaser: A short description of the challenge.
-  notes:
-  - type: text
-    contents: |-
-      ```
-      kubectl apply -f <file>
-      ```
-  - type: text
-    contents: |-
-      ```
-      apiVersion: v1
-      kind: Pod
-      metadata:
-        name: guestbook
-      spec:
-        containers:
-        - name: guestbook
-          image: kubeguide/guestbook-php-frontend:localredis
-          ports:
-          - containerPort: 80
-        - name: redis
-          image: redis
-          ports:
-          - containerPort: 6379
-      ```
-  assignment: |-
-    The webserver will need a database eventually, lets **add a MySQL container** to the **pod definition** of **nginx**.
-
-    The container uses **port 3306** and uses the **official mysql image** from the docker hub.
-
-    After updating the definition, **apply** the changes.
-  difficulty: basic
-  unlocks:
-  - delete-a-definition
-  tabs:
-  - type: service
-    title: Kubernetes
-    hostname: kubernetes
-    port: 8001
-    path: "/api/v1/namespaces/kube-system/services/kubernetes-dashboard/proxy/#!/pod?namespace=default"
-  - type: terminal
-    title: Shell
-    hostname: kubernetes
 - slug: edit-a-definition
   credits: 10
   title: Edit a definition
-  teaser: A short description of the challenge.
+  teaser: Update the definition files of your Kubernetes objects.
   notes:
   - type: text
     contents: |-
@@ -249,44 +195,47 @@ challenges:
   assignment: |-
     There is a newer version of the nginx Docker image.
 
-    Update the version of the nginx container to be ... by using the edit command.
+    Update the version of the nginx container to be 1.13.8-alpine by using the edit command.
   difficulty: basic
   unlocks:
   - delete-a-definition
   tabs:
+  - type: terminal
+    title: Shell
+    hostname: kubernetes
   - type: service
     title: Kubernetes
     hostname: kubernetes
     port: 8001
     path: "/api/v1/namespaces/kube-system/services/kubernetes-dashboard/proxy/#!/pod?namespace=default"
-  - type: terminal
-    title: Shell
-    hostname: kubernetes
 - slug: delete-a-definition
   credits: 10
   title: Delete a definition
-  teaser: A short description of the challenge.
+  teaser: Getting rid of the objects created by your definition files.
   notes:
   - type: text
     contents: |-
+      Removing all resources defined in a Kubernetes definition can be easily done with:
       ```
       kubectl delete -f <file>
       ```
+
+      This will remove all resources present in the definition(s).
   assignment: |-
     Remove the nginx pod.
   difficulty: basic
   unlocks: []
   tabs:
+  - type: terminal
+    title: Shell
+    hostname: kubernetes
   - type: service
     title: Kubernetes
     hostname: kubernetes
     port: 8001
     path: "/api/v1/namespaces/kube-system/services/kubernetes-dashboard/proxy/#!/pod?namespace=default"
-  - type: terminal
-    title: Shell
-    hostname: kubernetes
 developers:
 - erik@instruqt.com
 - bas@instruqt.com
 - niels@instruqt.com
-published: false
+published: true

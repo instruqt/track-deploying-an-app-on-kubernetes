@@ -1,1 +1,10 @@
 #!/bin/bash
+DEPLOYMENT=$(kubectl get deployments nginx)
+
+# Check if we have a result
+if [ $? == 0 ]; then
+  echo "FAIL: The deployment named nginx was not removed"
+  exit 1
+fi
+
+exit 0
