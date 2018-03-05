@@ -2,7 +2,7 @@ template: virtualmachines
 configuration:
   PoolSize: 0
   VirtualMachines:
-  - Image: kubernetes-180
+  - Image: kubernetes-192
     MachineType: g1-small
     Name: kubernetes
     Ports:
