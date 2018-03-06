@@ -1,5 +1,5 @@
 #!/bin/bash
-COMMAND=$(cat /root/.bash_history | grep "^kubectl edit pod/" | wc -l)
+COMMAND=$(cat /root/.bash_history | grep "^kubectl edit pod" | wc -l)
 if [ $COMMAND -eq 0 ]; then
   echo "FAIL: The kubectl edit definition command was not run."
   exit 1
