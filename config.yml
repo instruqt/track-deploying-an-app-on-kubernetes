@@ -3,7 +3,7 @@ configuration:
   PoolSize: 0
   VirtualMachines:
   - Image: kubernetes-192
-    MachineType: g1-small
+    MachineType: n1-standard-1
     Name: kubernetes
     Ports:
     - 8001
