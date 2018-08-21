@@ -5,47 +5,55 @@ slug: deploying-an-app-on-kubernetes
 icon: https://storage.googleapis.com/instruqt-frontend/img/tracks/kubernetes.png
 title: Deploying an app on Kubernetes
 teaser: Learn how to run applications on Kubernetes.
-description: |-
-  In this track you will deploy your first application on a Kubernetes cluster.
-
-  Through these deployment tasks, you’ll gain familiarity with the following:
+description: |
+  In this track you will deploy your first application on a Kubernetes cluster. By solving the challenges, you’ll gain familiarity with the following:
 
   - General concepts
     - **Configuration files** - Written in YAML or JSON, these files describe the desired state of your application in terms of Kubernetes API objects. A file can include one or more API object descriptions (manifests).
-    - **Pods** - This is the basic unit for all of the workloads you run on Kubernetes. These workloads, such as Deployments and Jobs, are composed of one or more Pods. To learn more, check out this explanation of Pods and Nodes.
+    - **Pods** - This is the basic unit for all of the workloads you run on Kubernetes. These workloads, such as Deployments and Jobs, are composed of one or more Pods.
+
 
   - Common workload objects
-    - Deployment - The most common way of running X copies (Pods) of your application. Supports rolling updates to your container images.
+    - **Deployment** - The most common way of running X copies (Pods) of your application. Supports rolling updates to your container images.
+
+
+  - Tools
+    - **kubectl** - The default commandline tool to interact with the Kubernetes cluster.
+    - **Kubernetes Dashboard** - The default dashboard that comes with Kubernetes.
+
+  ![Kubernetes Pods](https://storage.googleapis.com/instruqt-frontend/img/tracks/kubernetes/pods.svg)
+
 
   More information on these subjects can be found [here](https://kubernetes.io/docs/concepts/)
 tags:
 - kubernetes
 challenges:
-- id: vgeeozdqak
+- id: xtyiqlhytnm6
+  type: ""
   slug: run-an-application
-  credits: 10
   title: Run an application
   teaser: Run your first application on Kubernetes from the command-line.
   notes:
   - type: text
-    title: ""
-    contents: |-
-      Once you have a running Kubernetes cluster, you can **deploy** your **containerized applications** on top of it.
-
-      To do so, you create a Kubernetes **Deployment configuration**.
+    contents: In this track you will learn how to **deploy**, **edit** and **delete**
+      an application on Kubernetes. We've already created a running Kubernetes cluster
+      for you.
   - type: text
-    title: ""
-    contents: |-
+    contents: Kubernetes makes use of **Pods**. A **Pod** consists of one or more
+      containers. To deploy a **Pod**, you need to create a Kubernetes **Deployment
+      configuration**.
+  - type: image
+    url: https://storage.googleapis.com/instruqt-frontend/img/tracks/kubernetes/pods.svg
+  - type: text
+    contents: |
       The Deployment instructs Kubernetes **how to create and update** instances of your application.
 
-      Once you've created a Deployment, the Kubernetes master **schedules** mentioned application **instances onto individual Nodes** in the cluster.
+      Once you've created a Deployment, the Kubernetes master **schedules** the **Pods** on the individual **Nodes** in the cluster.
   - type: text
-    title: ""
     contents: When you create a Deployment, you'll need to specify the **container
       image** for your application and the **number of replicas** that you want to
       run.
   - type: text
-    title: ""
     contents: |-
       You can create and manage a Deployment by using the **Kubernetes command line interface, Kubectl**.
 
@@ -54,6 +62,7 @@ challenges:
       ```
 
       Kubectl uses the **Kubernetes API** to interact with the cluster.
+  difficulty: basic
   assignment: |-
     Run the **nginx docker image** using **port 80** on Kubernetes, by using **kubectl**.
 
@@ -65,7 +74,6 @@ challenges:
     You can check if everything is working correctly by **refreshing the Kubernetes tab** and checking the deployments.
 
     If you need more help, try **kubectl run --help**.
-  difficulty: basic
   timelimit: 300
   tabs:
   - type: terminal
@@ -76,28 +84,26 @@ challenges:
     hostname: kubernetes
     port: 8001
     path: /api/v1/namespaces/kube-system/services/kubernetes-dashboard/proxy/#!/deployment?namespace=default
-- id: klllqxr3mk
+- id: bowdowhj4mvx
+  type: ""
   slug: remove-an-application
-  credits: 10
   title: Remove an application
   teaser: Get rid of the application that you started.
   notes:
   - type: text
-    title: ""
     contents: |-
       When you want to **stop** your application, you need to **remove it** from the Kubernetes cluster.
 
       Removing the deployment will also **destroy** any **underlying containers**.
   - type: text
-    title: ""
     contents: |-
       You can **delete the deployment** using the Kubernetes command line tool, kubectl:
 
       ```
       kubectl delete deployment <name>
       ```
-  assignment: Remove the **nginx deployment** we created in the **previous challenge**.
   difficulty: basic
+  assignment: Remove the **nginx deployment** we created in the **previous challenge**.
   timelimit: 300
   tabs:
   - type: terminal
@@ -108,40 +114,35 @@ challenges:
     hostname: kubernetes
     port: 8001
     path: /api/v1/namespaces/kube-system/services/kubernetes-dashboard/proxy/#!/deployment?namespace=default
-- id: 5z22qd8wx5
+- id: xreqxalfp7th
+  type: ""
   slug: definition-files
-  credits: 10
   title: Definition files
   teaser: Take a look at the way objects are defined in Kubernetes.
   notes:
   - type: text
-    title: ""
     contents: |-
       You interact with Kubernetes objects by **submitting a definition**.
       This definition is a **declaration of a desired state**.
 
       Desired state is a very important concept in the Kubernetes model.
   - type: text
-    title: ""
     contents: |-
       Many things present a desired state to the system, and it is Kubernetes' responsibility to make sure that the **current state matches the desired state**.
 
       For example, when you create a Pod, you declare that you want the containers in it to be running.
   - type: text
-    title: ""
     contents: |-
       If the containers happen to **not be running** (e.g. program failure, etc.), Kubernetes will continue to **(re-)create them** for you in order to **drive them to the desired state**.
 
       This process continues until the Pod is deleted.
   - type: text
-    title: ""
     contents: |-
       **Pods** are the **atomic unit** on the Kubernetes platform.
       When you create a Deployment on Kubernetes, that Deployment **creates Pods** with **containers inside** them.
 
       Each Pod is **tied to the Node** where it is scheduled, and remains there **until termination or deletion**.
   - type: text
-    title: ""
     contents: |-
       A Pod represents a group of **one or more** application containers that are **relatively tightly coupled**, and some **shared resources** for those containers:
       - **Shared storage**, as Volumes
@@ -150,14 +151,13 @@ challenges:
 
       Pods are **always co-located and co-scheduled** and run in a shared context on the same Node.
   - type: text
-    title: ""
     contents: The simplest **pod definition** describes the deployment of a **single
       container**.
+  difficulty: basic
   assignment: |-
     We have created a simple **pod definition** file for you.
 
     Take a look at the contents of **nginx.yml**.
-  difficulty: basic
   timelimit: 300
   tabs:
   - type: terminal
@@ -168,14 +168,13 @@ challenges:
     hostname: kubernetes
     port: 8001
     path: /api/v1/namespaces/kube-system/services/kubernetes-dashboard/proxy/#!/pod?namespace=default
-- id: k2eejowa3k
+- id: uwzkapzzjggq
+  type: ""
   slug: apply-a-definition
-  credits: 10
   title: Apply a definition
   teaser: Deploy applications on Kubernetes using the definition files.
   notes:
   - type: text
-    title: ""
     contents: |-
       You can submit definitions to the Kubernetes API with kubectl:
       ```
@@ -184,15 +183,14 @@ challenges:
 
       This will tell Kubernetes to create the desired state described in the definition file.
   - type: text
-    title: ""
     contents: |-
       You can create a **single file** at a time, or **all files in a directory** at once.
 
       ```
       kubectl create -f <directory>
       ```
-  assignment: Submit the **nginx.yml** file to the Kubernetes master using **kubectl**.
   difficulty: basic
+  assignment: Submit the **nginx.yml** file to the Kubernetes master using **kubectl**.
   timelimit: 300
   tabs:
   - type: terminal
@@ -203,14 +201,13 @@ challenges:
     hostname: kubernetes
     port: 8001
     path: /api/v1/namespaces/kube-system/services/kubernetes-dashboard/proxy/#!/pod?namespace=default
-- id: veeermljav
+- id: 352z4gmcyzap
+  type: ""
   slug: edit-a-definition
-  credits: 10
   title: Edit a definition
   teaser: Update the definition files of your Kubernetes objects.
   notes:
   - type: text
-    title: ""
     contents: |-
       Instead of opening the file yourself and applying the changes, you can also use:
       ```
@@ -218,11 +215,11 @@ challenges:
       ```
 
       This can be used for any Kubernetes resource by replacing pod with the resource type.
+  difficulty: basic
   assignment: |-
     There is a newer version of the nginx Docker image.
 
     Update the version of the nginx container to be 1.13.8-alpine by using the edit command.
-  difficulty: basic
   timelimit: 300
   tabs:
   - type: terminal
@@ -233,14 +230,13 @@ challenges:
     hostname: kubernetes
     port: 8001
     path: /api/v1/namespaces/kube-system/services/kubernetes-dashboard/proxy/#!/pod?namespace=default
-- id: 58eenqy3n5
+- id: l8eu9jxp2cyx
+  type: ""
   slug: delete-a-definition
-  credits: 10
   title: Delete a definition
   teaser: Getting rid of the objects created by your definition files.
   notes:
   - type: text
-    title: ""
     contents: |-
       Removing all resources defined in a Kubernetes definition can be easily done with:
       ```
@@ -248,8 +244,8 @@ challenges:
       ```
 
       This will remove all resources present in the definition(s).
-  assignment: Remove the nginx pod.
   difficulty: basic
+  assignment: Remove the nginx pod.
   timelimit: 300
   tabs:
   - type: terminal
@@ -265,3 +261,4 @@ developers:
 - bas@instruqt.com
 - niels@instruqt.com
 published: true
+private: false

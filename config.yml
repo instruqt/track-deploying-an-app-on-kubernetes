@@ -1,10 +1,9 @@
-template: virtualmachines
-configuration:
-  PoolSize: 1
-  VirtualMachines:
-  - Image: kubernetes-110
-    MachineType: n1-standard-1
-    Name: kubernetes
-    Ports:
-    - 8001
-    Shell: /bin/bash
+version: "2"
+virtualmachines:
+- name: kubernetes
+  image: instruqt/kubernetes-v1-11-0
+  machine_type: n1-standard-1
+  ports:
+  - 8001
+  shell: /bin/bash
+  pool_size: 1
